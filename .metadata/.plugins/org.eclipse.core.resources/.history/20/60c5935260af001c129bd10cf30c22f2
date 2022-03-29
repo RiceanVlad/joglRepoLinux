@@ -1,0 +1,111 @@
+package jogl;
+
+import java.io.IOException;
+
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.glu.GLU;
+import com.jogamp.opengl.util.texture.Texture;
+
+public class TextureHandler {
+	
+	private final int NO_TEXTURES = 1;
+
+	private int texture[] = new int[NO_TEXTURES];
+	TextureReader.Texture[] tex = new TextureReader.Texture[NO_TEXTURES];
+	private GLU glu;
+	private GL gl;
+	
+	public TextureHandler(GL gl, GLU glu, String filename, boolean mipmapped) {
+		glu = GLU.createGLU();
+		filename = "path/to/your/image/here";
+		
+		// Generate a name (id) for the texture.
+		// This is called once in init no matter how many textures we want to generate in the texture vector
+	    gl.glGenTextures(NO_TEXTURES, texture, 0);
+
+		// Define the filters used when the texture is scaled.
+		gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR);
+		gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR);
+
+		// Do not forget to enable texturing.
+		gl.glEnable(GL.GL_TEXTURE_2D);
+
+		// The following lines are for creating ONE texture
+		// If you want TWO textures modify NO_TEXTURES=2 and copy-paste again the next lines of code
+		// up until (and including) this.makeRGBTexture(...)
+		// Modify texture[0] and tex[0] to texture[1] and tex[1] in the new code and that's it
+
+		// Bind (select) the texture.
+		gl.glBindTexture(GL.GL_TEXTURE_2D, texture[0]);
+		
+		
+
+		// Read the texture from the image.
+		try {
+			tex[0] = TextureReader.readTexture("path/to/your/image/here");
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+
+		// Construct the texture and use mipmapping in the process.
+		this.makeRGBTexture(gl, glu, tex[0], GL.GL_TEXTURE_2D, true);
+		
+	}
+	
+	
+	public void display(GLAutoDrawable canvas)
+	{
+
+		// Bind (select) the texture
+		gl.glBindTexture(GL.GL_TEXTURE_2D, texture[0]);
+
+		// Draw a square and apply a texture on it.
+//		gl.glBegin(GL2.GL_QUADS);
+//			// Lower left corner.
+//			gl.glTexCoord2f(0.0f, 0.0f);
+//			gl.glVertex2f(0.1f, 0.1f);
+//
+//			// Lower right corner.
+//			gl.glTexCoord2f(1.0f, 0.0f);
+//			gl.glVertex2f(0.9f, 0.1f);
+//
+//			// Upper right corner.
+//			gl.glTexCoord2f(1.0f, 1.0f);
+//			gl.glVertex2f(0.9f, 0.9f);
+//
+//			// Upper left corner.
+//			gl.glTexCoord2f(0.0f, 1.0f);
+//			gl.glVertex2f(0.1f, 0.9f);
+//		gl.glEnd();
+
+	}
+	
+	public static void bind() {
+		
+	}
+	
+	public static void enable() {
+		
+	}
+	
+	public static void disabled() {
+		
+	}
+	
+	public static TextureReader.Texture getTexture() {
+		TextureReader.Texture tex = new TextureReader.Texture(null, 0, 0);
+		
+		return tex;
+	}
+	
+	private void makeRGBTexture(GL gl, GLU glu, TextureReader.Texture img, int target, boolean mipmapped) {     
+        if (mipmapped) {
+		glu.gluBuild2DMipmaps(target, GL.GL_RGB8, img.getWidth(), img.getHeight(), GL.GL_RGB, GL.GL_UNSIGNED_BYTE, img.getPixels());
+	} else {
+		gl.glTexImage2D(target, 0, GL.GL_RGB, img.getWidth(), img.getHeight(), 0, GL.GL_RGB, GL.GL_UNSIGNED_BYTE, img.getPixels());
+	}
+}
+}

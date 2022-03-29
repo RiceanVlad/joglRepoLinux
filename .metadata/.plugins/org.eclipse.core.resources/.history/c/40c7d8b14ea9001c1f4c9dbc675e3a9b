@@ -1,0 +1,37 @@
+package jogl;
+
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.glu.GLU;
+
+public class TextureHandler {
+	
+	public TextureHandler(GL gl, GLU glu, String filename, boolean mipmapped) {
+		
+		
+	}
+	
+	
+	public static void bind() {
+		
+	}
+	
+	public static void enable() {
+		
+	}
+	
+	public static void disabled() {
+		
+	}
+	
+	public static void getTexture() {
+		
+	}
+	
+	private void makeRGBTexture(GL gl, GLU glu, TextureReader.Texture img, int target, boolean mipmapped) {     
+        if (mipmapped) {
+		glu.gluBuild2DMipmaps(target, GL.GL_RGB8, img.getWidth(), img.getHeight(), GL.GL_RGB, GL.GL_UNSIGNED_BYTE, img.getPixels());
+	} else {
+		gl.glTexImage2D(target, 0, GL.GL_RGB, img.getWidth(), img.getHeight(), 0, GL.GL_RGB, GL.GL_UNSIGNED_BYTE, img.getPixels());
+	}
+}
+}

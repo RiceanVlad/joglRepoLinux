@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="com.jogamp.opengl.glu.GLU"/>
+    <fullyQualifiedTypeName name="com.jogamp.opengl.GL2"/>
+    <fullyQualifiedTypeName name="com.jogamp.opengl.GL"/>
+    <fullyQualifiedTypeName name="com.jogamp.opengl.util.texture.Texture"/>
+    <fullyQualifiedTypeName name="java.net.URL"/>
+    <fullyQualifiedTypeName name="jogl.TextureReader.Texture"/>
+</qualifiedTypeNameHistroy>
